@@ -2,11 +2,3 @@ torch
 numpy
 flask
 flask_sqlalchemy
-torch
-math
-copy
-json 
-random
-argparse
-time
-datetime
