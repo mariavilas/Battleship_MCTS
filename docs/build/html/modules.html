@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; Battleship 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Battleship’s API documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Battleship
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tfg-game-board">tfg.game.board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.game.board.Board"><code class="docutils literal notranslate"><span class="pre">Board</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.can_place_ship"><code class="docutils literal notranslate"><span class="pre">Board.can_place_ship()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.empty_board"><code class="docutils literal notranslate"><span class="pre">Board.empty_board()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.get_boats_status"><code class="docutils literal notranslate"><span class="pre">Board.get_boats_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.get_cell"><code class="docutils literal notranslate"><span class="pre">Board.get_cell()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.has_won"><code class="docutils literal notranslate"><span class="pre">Board.has_won()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.place_fleet"><code class="docutils literal notranslate"><span class="pre">Board.place_fleet()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.place_ship"><code class="docutils literal notranslate"><span class="pre">Board.place_ship()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.shoot"><code class="docutils literal notranslate"><span class="pre">Board.shoot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.game.board.Board.to_tensor"><code class="docutils literal notranslate"><span class="pre">Board.to_tensor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg-algorithms-mcts">tfg.algorithms.mcts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS"><code class="docutils literal notranslate"><span class="pre">MCTS</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS.compute_heatmap"><code class="docutils literal notranslate"><span class="pre">MCTS.compute_heatmap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS.run"><code class="docutils literal notranslate"><span class="pre">MCTS.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS.run_with_policy"><code class="docutils literal notranslate"><span class="pre">MCTS.run_with_policy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS.simulate"><code class="docutils literal notranslate"><span class="pre">MCTS.simulate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.MCTS.update_with_move"><code class="docutils literal notranslate"><span class="pre">MCTS.update_with_move()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.algorithms.mcts.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.Node.backpropagate"><code class="docutils literal notranslate"><span class="pre">Node.backpropagate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.Node.best_child"><code class="docutils literal notranslate"><span class="pre">Node.best_child()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.Node.expand"><code class="docutils literal notranslate"><span class="pre">Node.expand()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.Node.to_dict"><code class="docutils literal notranslate"><span class="pre">Node.to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.algorithms.mcts.Node.uct_value"><code class="docutils literal notranslate"><span class="pre">Node.uct_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg-ai-mcts-ml">tfg.ai.mcts_ml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode"><code class="docutils literal notranslate"><span class="pre">NNode</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.state"><code class="docutils literal notranslate"><span class="pre">NNode.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.parent"><code class="docutils literal notranslate"><span class="pre">NNode.parent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.action"><code class="docutils literal notranslate"><span class="pre">NNode.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.children"><code class="docutils literal notranslate"><span class="pre">NNode.children</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.visit_count"><code class="docutils literal notranslate"><span class="pre">NNode.visit_count</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.value_sum"><code class="docutils literal notranslate"><span class="pre">NNode.value_sum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.prior"><code class="docutils literal notranslate"><span class="pre">NNode.prior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.backpropagate"><code class="docutils literal notranslate"><span class="pre">NNode.backpropagate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.expand"><code class="docutils literal notranslate"><span class="pre">NNode.expand()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.q_value"><code class="docutils literal notranslate"><span class="pre">NNode.q_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.score"><code class="docutils literal notranslate"><span class="pre">NNode.score()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.to_dict"><code class="docutils literal notranslate"><span class="pre">NNode.to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NNode.u_value"><code class="docutils literal notranslate"><span class="pre">NNode.u_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.ai.mcts_ml.NeuralMCTS"><code class="docutils literal notranslate"><span class="pre">NeuralMCTS</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.mcts_ml.NeuralMCTS.run"><code class="docutils literal notranslate"><span class="pre">NeuralMCTS.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tgf-ai-network">tgf.ai.network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tfg.ai.network.GameNet"><code class="docutils literal notranslate"><span class="pre">GameNet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tfg.ai.network.GameNet.forward"><code class="docutils literal notranslate"><span class="pre">GameNet.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#self-play-py">self_play.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#self_play.balance_records"><code class="docutils literal notranslate"><span class="pre">balance_records()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#self_play.generate_and_balance"><code class="docutils literal notranslate"><span class="pre">generate_and_balance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#self_play.play_one_game"><code class="docutils literal notranslate"><span class="pre">play_one_game()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train-py">train.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train.GameDataset"><code class="docutils literal notranslate"><span class="pre">GameDataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Battleship</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-tfg.game.board">
+<span id="api-reference"></span><h1>API Reference<a class="headerlink" href="#module-tfg.game.board" title="Link to this heading"></a></h1>
+<section id="tfg-game-board">
+<h2>tfg.game.board<a class="headerlink" href="#tfg-game-board" title="Link to this heading"></a></h2>
+<p>This module defines the game board for the Battleship game, including methods for placing ships, shooting
+ships, and checking game status. It also provides a method to convert the board state into a tensor representation suitable for neural networks.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.game.board.Board">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.game.board.</span></span><span class="sig-name descname"><span class="pre">Board</span></span><a class="headerlink" href="#tfg.game.board.Board" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Board represents the game board for Battleship.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.can_place_ship">
+<span class="sig-name descname"><span class="pre">can_place_ship</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ship</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.can_place_ship" title="Link to this definition"></a></dt>
+<dd><p>Checks if a ship can be placed on the board at the specified position and direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – The row index where the ship is to be placed.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The column index where the ship is to be placed.</p></li>
+<li><p><strong>direction</strong> (<em>str</em>) – The direction of the ship (‘H’ for horizontal, ‘V’ for vertical).</p></li>
+<li><p><strong>ship</strong> (<em>int</em>) – The size of the ship to be placed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.empty_board">
+<span class="sig-name descname"><span class="pre">empty_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.empty_board" title="Link to this definition"></a></dt>
+<dd><p>Creates an empty board filled with SEA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 2D list representing the empty board, where each cell is initialized to SEA.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.get_boats_status">
+<span class="sig-name descname"><span class="pre">get_boats_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.get_boats_status" title="Link to this definition"></a></dt>
+<dd><p>Checks the status of each boat on the board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of dictionaries, each containing the ship value and whether it is sunk.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.get_cell">
+<span class="sig-name descname"><span class="pre">get_cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.get_cell" title="Link to this definition"></a></dt>
+<dd><p>Returns the value of the cell at position (x, y) on the board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – The row index of the cell.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The column index of the cell.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of the cell at (x, y), which can be SEA, HIT, or MISS.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.has_won">
+<span class="sig-name descname"><span class="pre">has_won</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.has_won" title="Link to this definition"></a></dt>
+<dd><p>Checks if all boats have been sunk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all boats have been sunk, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.place_fleet">
+<span class="sig-name descname"><span class="pre">place_fleet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.place_fleet" title="Link to this definition"></a></dt>
+<dd><p>Randomly places the fleet of ships on the board.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.place_ship">
+<span class="sig-name descname"><span class="pre">place_ship</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ship</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.place_ship" title="Link to this definition"></a></dt>
+<dd><p>Places a ship on the board at the specified position and direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – The row index where the ship is to be placed.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The column index where the ship is to be placed.</p></li>
+<li><p><strong>direction</strong> (<em>str</em>) – The direction of the ship (‘H’ for horizontal, ‘V’ for vertical).</p></li>
+<li><p><strong>ship</strong> (<em>int</em>) – The size of the ship to be placed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples representing the positions occupied by the ship on the board.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.shoot">
+<span class="sig-name descname"><span class="pre">shoot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.shoot" title="Link to this definition"></a></dt>
+<dd><p>Shoots at the specified position on the board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – The row index of the cell to shoot at.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The column index of the cell to shoot at.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the shot hit a ship, False if it was a miss or already shot.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.game.board.Board.to_tensor">
+<span class="sig-name descname"><span class="pre">to_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.game.board.Board.to_tensor" title="Link to this definition"></a></dt>
+<dd><p>Converts the board state to a tensor representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 3D numpy array of shape (3, BOARD_SIZE, BOARD_SIZE) representing the board state.
+The first layer represents hits, the second layer represents misses, and the third layer represents empty cells.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="tfg-algorithms-mcts">
+<span id="module-tfg.algorithms.mcts"></span><h2>tfg.algorithms.mcts<a class="headerlink" href="#tfg-algorithms-mcts" title="Link to this heading"></a></h2>
+<p>This module implements a Monte Carlo Tree Search (MCTS) algorithm for the Battleship game.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.algorithms.mcts.</span></span><span class="sig-name descname"><span class="pre">MCTS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS" title="Link to this definition"></a></dt>
+<dd><p>Monte Carlo Tree Search (MCTS) algorithm for the Battleship game.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS.compute_heatmap">
+<span class="sig-name descname"><span class="pre">compute_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS.compute_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Computes a static heatmap for the board based on valid ship placements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>board</strong> (<a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><em>Board</em></a>) – The current game board.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A flat list representing the heatmap, where each cell’s value indicates the number of valid ship placements covering that cell.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS.run" title="Link to this definition"></a></dt>
+<dd><p>Runs the MCTS algorithm for a given number of iterations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> (<a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><em>Board</em></a>) – The current game board.</p></li>
+<li><p><strong>iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of MCTS iterations to run. Defaults to self.iterations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The best move (x, y) determined by MCTS.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS.run_with_policy">
+<span class="sig-name descname"><span class="pre">run_with_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS.run_with_policy" title="Link to this definition"></a></dt>
+<dd><p>Runs MCTS with a policy that combines static heatmap and target map based on the current board state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> (<a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><em>Board</em></a>) – The current game board.</p></li>
+<li><p><strong>iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of MCTS iterations to run. Defaults to self.iterations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The best move (x, y) determined by MCTS and a flat policy vector π.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS.simulate" title="Link to this definition"></a></dt>
+<dd><p>Simulates a game from the given board state until a win or draw is reached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim</strong> (<a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><em>Board</em></a>) – The current game board to simulate from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if the simulation results in a win for the player, 0 otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.MCTS.update_with_move">
+<span class="sig-name descname"><span class="pre">update_with_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.MCTS.update_with_move" title="Link to this definition"></a></dt>
+<dd><p>Updates the MCTS tree to reflect a move made by the opponent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>move</strong> (<em>tuple</em>) – The move made by the opponent, represented as (x, y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.algorithms.mcts.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node" title="Link to this definition"></a></dt>
+<dd><p>Node in the Monte Carlo Tree Search (MCTS) tree.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node.backpropagate">
+<span class="sig-name descname"><span class="pre">backpropagate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node.backpropagate" title="Link to this definition"></a></dt>
+<dd><p>Backpropagate the result of a simulation up the tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> (<em>int</em>) – The result of the simulation (1 for win, 0 for loss).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node.best_child">
+<span class="sig-name descname"><span class="pre">best_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.41</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_puct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node.best_child" title="Link to this definition"></a></dt>
+<dd><p>Find the best child node based on UCT value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<em>float</em><em>, </em><em>optional</em>) – Exploration constant for balancing exploration and exploitation. Defaults to 1.41.</p></li>
+<li><p><strong>c_puct</strong> (<em>float</em><em>, </em><em>optional</em>) – Exploration constant for balancing prior probability. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The child node with the highest UCT value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#tfg.algorithms.mcts.Node" title="tfg.algorithms.mcts.Node">Node</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node.expand">
+<span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node.expand" title="Link to this definition"></a></dt>
+<dd><p>Expand the node by adding a new child node for an untried move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new child node representing the state after making an untried move, or None if no untried moves are available.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#tfg.algorithms.mcts.Node" title="tfg.algorithms.mcts.Node">Node</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Convert the node to a dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the node’s action, visit count, win count, win rate, and children.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.algorithms.mcts.Node.uct_value">
+<span class="sig-name descname"><span class="pre">uct_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.41</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_puct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.algorithms.mcts.Node.uct_value" title="Link to this definition"></a></dt>
+<dd><p>Calculate the UCT value for this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<em>float</em><em>, </em><em>optional</em>) – Exploration constant for balancing exploration and exploitation. Defaults to 1.41.</p></li>
+<li><p><strong>c_puct</strong> (<em>float</em><em>, </em><em>optional</em>) – Exploration constant for balancing prior probability. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The UCT value of the node, combining exploitation and exploration.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="tfg-ai-mcts-ml">
+<span id="module-tfg.ai.mcts_ml"></span><h2>tfg.ai.mcts_ml<a class="headerlink" href="#tfg-ai-mcts-ml" title="Link to this heading"></a></h2>
+<p>This module implements a Neural-guided Monte Carlo Tree Search (MCTS) for Battleship using a PyTorch policy/value network.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.ai.mcts_ml.</span></span><span class="sig-name descname"><span class="pre">NNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode" title="Link to this definition"></a></dt>
+<dd><p>Node in the Monte Carlo Tree Search (MCTS) tree.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.state" title="Link to this definition"></a></dt>
+<dd><p>The game state represented by this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board">Board</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.parent" title="Link to this definition"></a></dt>
+<dd><p>The parent node in the MCTS tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#tfg.ai.mcts_ml.NNode" title="tfg.ai.mcts_ml.NNode">NNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.action">
+<span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.action" title="Link to this definition"></a></dt>
+<dd><p>The action taken to reach this node (i, j).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.children">
+<span class="sig-name descname"><span class="pre">children</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.children" title="Link to this definition"></a></dt>
+<dd><p>List of child nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.visit_count">
+<span class="sig-name descname"><span class="pre">visit_count</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.visit_count" title="Link to this definition"></a></dt>
+<dd><p>Number of times this node has been visited.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.value_sum">
+<span class="sig-name descname"><span class="pre">value_sum</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.value_sum" title="Link to this definition"></a></dt>
+<dd><p>Sum of values from backpropagation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.prior">
+<span class="sig-name descname"><span class="pre">prior</span></span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.prior" title="Link to this definition"></a></dt>
+<dd><p>Prior probability of this node’s action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.backpropagate">
+<span class="sig-name descname"><span class="pre">backpropagate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.backpropagate" title="Link to this definition"></a></dt>
+<dd><p>Backpropagate the value from this node up to the root.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – The value to backpropagate, typically the outcome of the game.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.expand">
+<span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.expand" title="Link to this definition"></a></dt>
+<dd><p>Expand the node by generating child nodes for all possible moves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>priors</strong> (<em>list</em>) – List of prior probabilities for each possible move.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.q_value">
+<span class="sig-name descname"><span class="pre">q_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.q_value" title="Link to this definition"></a></dt>
+<dd><p>Calculate the average value of this node based on visit counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The average value of the node, or 0.0 if not visited.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.score">
+<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_puct</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.score" title="Link to this definition"></a></dt>
+<dd><p>Calculate the score of this node, combining exploitation and exploration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c_puct</strong> (<em>float</em>) – Exploration constant for balancing exploration and exploitation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The score of the node, combining Q-value and U-value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Convert the node to a dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the node’s action, visit count, value sum, and children.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NNode.u_value">
+<span class="sig-name descname"><span class="pre">u_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_puct</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NNode.u_value" title="Link to this definition"></a></dt>
+<dd><p>Calculate the exploration value of this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c_puct</strong> (<em>float</em>) – Exploration constant for balancing exploration and exploitation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The exploration value of the node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NeuralMCTS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.ai.mcts_ml.</span></span><span class="sig-name descname"><span class="pre">NeuralMCTS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_puct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NeuralMCTS" title="Link to this definition"></a></dt>
+<dd><p>Neural-guided Monte Carlo Tree Search (MCTS) for Battleship.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.mcts_ml.NeuralMCTS.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_board</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><span class="pre">Board</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.mcts_ml.NeuralMCTS.run" title="Link to this definition"></a></dt>
+<dd><p>Run the MCTS algorithm on the given root board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_board</strong> (<a class="reference internal" href="#tfg.game.board.Board" title="tfg.game.board.Board"><em>Board</em></a>) – The initial game state to start the MCTS from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The action (i, j) to take based on the MCTS results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="tgf-ai-network">
+<span id="module-tfg.ai.network"></span><h2>tgf.ai.network<a class="headerlink" href="#tgf-ai-network" title="Link to this heading"></a></h2>
+<p>This module defines the neural network architecture used for the game AI.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="tfg.ai.network.GameNet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tfg.ai.network.</span></span><span class="sig-name descname"><span class="pre">GameNet</span></span><a class="headerlink" href="#tfg.ai.network.GameNet" title="Link to this definition"></a></dt>
+<dd><p>GameNet is a neural network for the Battleship game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nn.Module</strong> – Inherits from PyTorch’s nn.Module to define a neural network.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="tfg.ai.network.GameNet.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tfg.ai.network.GameNet.forward" title="Link to this definition"></a></dt>
+<dd><p>Forward pass of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor of shape (batch_size, 3, 6, 6).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>logits (torch.Tensor): Output tensor for policy head of shape (batch_size, 36).</p></li>
+<li><p>value (torch.Tensor): Output tensor for value head of shape (batch_size, 1).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="self-play-py">
+<span id="module-self_play"></span><h2>self_play.py<a class="headerlink" href="#self-play-py" title="Link to this heading"></a></h2>
+<p>This script generates self-play data for the Battleship game using MCTS,
+balances the dataset, and saves it in JSON Lines format.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="self_play.balance_records">
+<span class="sig-prename descclassname"><span class="pre">self_play.</span></span><span class="sig-name descname"><span class="pre">balance_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#self_play.balance_records" title="Link to this definition"></a></dt>
+<dd><p>Balance the dataset by sampling an equal number of winning and losing records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>records</strong> (<em>list</em>) – List of game records, each a dict with ‘z’ indicating win/loss.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A balanced list of records with equal numbers of winners and losers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="self_play.generate_and_balance">
+<span class="sig-prename descclassname"><span class="pre">self_play.</span></span><span class="sig-name descname"><span class="pre">generate_and_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_games</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data_balanced.jsonl'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#self_play.generate_and_balance" title="Link to this definition"></a></dt>
+<dd><p>Generate self-play data for Battleship and balance the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_games</strong> (<em>int</em>) – Total number of games to generate.</p></li>
+<li><p><strong>iters</strong> (<em>int</em>) – Number of MCTS iterations per move.</p></li>
+<li><p><strong>out_file</strong> (<em>str</em>) – Output file path for the balanced dataset in JSON Lines format.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="self_play.play_one_game">
+<span class="sig-prename descclassname"><span class="pre">self_play.</span></span><span class="sig-name descname"><span class="pre">play_one_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mcts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#self_play.play_one_game" title="Link to this definition"></a></dt>
+<dd><p>Play a single game of Battleship using MCTS for self-play.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mcts</strong> (<a class="reference internal" href="#tfg.algorithms.mcts.MCTS" title="tfg.algorithms.mcts.MCTS"><em>MCTS</em></a>) – An instance of the MCTS class to run simulations.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of records, each containing the state, policy distribution (pi), and outcome (z).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="train-py">
+<span id="module-train"></span><h2>train.py<a class="headerlink" href="#train-py" title="Link to this heading"></a></h2>
+<p>This script trains a neural network model for the Battleship game using self-play data.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="train.GameDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">GameDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#train.GameDataset" title="Link to this definition"></a></dt>
+<dd><p>GameDataset is a PyTorch Dataset for loading Battleship game records from a JSONL file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the JSONL file containing game records.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.train">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datafile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data_balanced.jsonl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model.pth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stop_patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#train.train" title="Link to this definition"></a></dt>
+<dd><p>Train a neural network model for the Battleship game using self-play data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datafile</strong> (<em>str</em>) – Path to the JSONL file containing game records.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em>) – Number of training epochs.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Batch size for training.</p></li>
+<li><p><strong>lr</strong> (<em>float</em>) – Learning rate for the optimizer.</p></li>
+<li><p><strong>model_out</strong> (<em>str</em>) – Output path to save the trained model.</p></li>
+<li><p><strong>val_split</strong> (<em>float</em>) – Fraction of data to use for validation.</p></li>
+<li><p><strong>early_stop_patience</strong> (<em>int</em>) – Number of epochs with no improvement before stopping training early.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Battleship’s API documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, UO282899.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

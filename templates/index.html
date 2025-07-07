@@ -1,0 +1,167 @@
+<!-- index.html - Battleship WebApp template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Battleship</title>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- extern CSV -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!--------- nav bar --------->
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="#" id="nav-home">Home</a></li>
+      <li><a href="#" id="nav-play">Play</a></li>
+      <li><a href="#" id="nav-stats">Statistics</a></li>
+      <li style="position: relative;">
+        <a href="#" id="nav-help">Help ▾</a>
+        <div id="helpDropdown" class="dropdown">
+          <button id="btn-about"   class="dropdown-item">About</button>
+          <button id="btn-restart" class="dropdown-item">Restart</button>
+          <!-- about info -->
+          <div id="aboutLine"
+              class="dropdown-item"
+              style="display:none; border-top:1px solid #eee; font-size:.9rem; color:#333;">
+            uo282899 | Battleship | v1.0.0
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>BATTLESHIP</h1>
+
+    <!-- Options menu -->
+    <div id="options-container" class="options">
+      <h2>Choose Game Mode</h2>
+      <select id="gameMode">
+        <option value="uservsmcts">User vs MCTS</option>
+        <option value="mcts_vs_ml_mcts">MCTS vs ML-MCTS</option>
+        <option value="statistics">See Statistics</option>
+      </select>
+      <div id="placementOptions">
+        <h3>How would you like to place your ships?</h3>
+        <div id="boatPlacementContainer"></div>
+          <label><input type="radio" name="boatPlacement" value="random" checked><span>Random</span></label>
+          <label><input type="radio" name="boatPlacement" value="manual"><span>Manual</span></label>
+        </div>
+        <button onclick="setGameOptions()">Start</button>
+      </div>
+    </div>
+
+    <!-- Game board container -->
+    <div id="gameContainer" class="game" style="display:none;">
+      <p id="message"></p>
+      <div class="board-container">
+        <div>
+          <h2 id="userBoardHeading">Your Board</h2>
+          <div id="userBoard"></div>
+        </div>
+        <div>
+          <h2 id="pcBoardHeading">PC Board</h2>
+          <div id="pcBoard"></div>
+        </div>
+      </div>
+      <div class="boats-status">
+        <div>
+          <h3 id="userBoatsHeading">Your Boats</h3>
+          <ul id="userBoatsStatus"></ul>
+        </div>
+        <div>
+          <h3 id="pcBoatsHeading">PC Boats</h3>
+          <ul id="pcBoatsStatus"></ul>
+        </div>
+      </div>
+      <h3>AI's explanation</h3>
+      <p id="explanationText" class="explanation-text"></p>
+
+      <!-- MCTS Tree -->
+      <h3>MCTS visualization</h3>
+      <div id="network" style="width:100%;height:300px;border:1px solid #ccc;"></div>
+      <div class="nav-buttons">
+        <button onclick="startGame()">Restart Game</button>
+        <button onclick="backToMenu()">Main Menu</button>
+      </div>
+    </div>
+    
+
+    <!-- Statistics view -->
+    <div id="statsContainer" class="stats" style="display: none;">
+      <h2>Statistics</h2>
+      <div class="tabs">
+        <button class="tabButton active" data-tab="dashboardTab">Dashboard</button>
+        <button class="tabButton" data-tab="tablesTab">Tables</button>
+        <button class="tabButton" data-tab="chartsTab">Charts</button>
+      </div>
+
+      <!-- Dashboard KPIs -->
+      <div id="dashboardTab" class="tabContent">
+        <div class="kpi-section">
+          <h3>User vs MCTS</h3>
+          <div class="kpi-cards">
+            <div class="card"><h4>Total Games</h4><p id="kpi-total-1">–</p></div>
+            <div class="card"><h4>% User Wins</h4><p id="kpi-wpct-user-1">–</p></div>
+            <div class="card"><h4>% MCTS Wins</h4><p id="kpi-wpct-mcts-1">–</p></div>
+            <div class="card"><h4>Avg Duration (User)</h4><p id="kpi-avgdur-user-1">–</p></div>
+            <div class="card"><h4>Avg Duration (MCTS)</h4><p id="kpi-avgdur-mcts-1">–</p></div>
+          </div>
+        </div>
+        <div class="kpi-section">
+          <h3>MCTS vs ML-MCTS</h3>
+          <div class="kpi-cards">
+            <div class="card"><h4>Total Games</h4><p id="kpi-total-2">–</p></div>
+            <div class="card"><h4>% MCTS Wins</h4><p id="kpi-wpct-mcts-2">–</p></div>
+            <div class="card"><h4>% ML-MCTS Wins</h4><p id="kpi-wpct-ml-2">–</p></div>
+            <div class="card"><h4>Avg Duration (MCTS)</h4><p id="kpi-avgdur-mcts-2">–</p></div>
+            <div class="card"><h4>Avg Duration (ML-MCTS)</h4><p id="kpi-avgdur-ml-2">–</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- tables -->
+      <div id="tablesTab" class="tabContent" style="display: none;">
+        <h3>User vs MCTS</h3>
+        <table id="statsTable1" class="display" style="width:100%">
+          <thead><tr><th>Winner</th><th>Duration (s)</th></tr></thead><tbody></tbody>
+        </table>
+        <h3>MCTS vs ML-MCTS</h3>
+        <table id="statsTable2" class="display" style="width:100%">
+          <thead><tr><th>Winner</th><th>Duration (s)</th></tr></thead><tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Charts -->
+      <div id="chartsTab" class="tabContent" style="display: none;">
+        <div class="chart-wrapper">
+          <canvas id="statsChart"></canvas>
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <button id="exportCsvBtn">Export CSV</button>
+        <button onclick="backToMenu()">Back to Menu</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- JS libraries -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- vis.js tree visualization -->
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+ 
+  <!-- JS app -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

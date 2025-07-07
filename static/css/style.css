@@ -1,0 +1,436 @@
+/*!
+ * style.css – Battleship WebApp
+ * Purpose: To provide a modern, responsive, and visually appealing design for the Battleship game web application.
+ */
+
+
+/* Reset and base styles */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  background-color: #eef6ff;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 2rem 0;
+}
+.container {
+  width: 90%; max-width: 900px;
+  background: #fff; padding: 2rem; border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+}
+h1 { color: #104e8b; font-size: 2.5rem; text-align: center; margin-bottom: 1.5rem; }
+h2, h3 { color: #104e8b; text-align: center; }
+
+/*  navbar  */
+.navbar {
+  background-color: #104e8b;
+  padding: 0.5rem 1rem;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-list a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.nav-list a:hover {
+  text-decoration: underline;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  min-width: 120px;
+  z-index: 1000;
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #104e8b;
+}
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+/* help modal */
+.modal {
+  display: none;        /* hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 0.5rem; right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Options menu styles */
+.options {
+  background: linear-gradient(135deg, #cce5ff, #f0faff);
+  border: 1px solid #b0dfff; border-radius: 16px;
+  padding: 2rem; margin-bottom: 2rem; text-align: center;
+  transition: transform 0.3s;
+  position: relative; 
+}
+.options:hover { transform: translateY(-5px); }
+.options h2 { font-size: 1.75rem; margin-bottom: 1rem; }
+.options h3 { margin: 1rem 0 .5rem; }
+.options select,
+.options button {
+  width: 80%; max-width: 320px;
+  font-size: 1.1rem; padding: .75rem;
+  border-radius: 8px; border: 1px solid #bbb;
+  margin: .5rem auto; display: block;
+}
+.options select:focus { outline: none; border-color: #104e8b; }
+
+/* Radio button styling */
+#boatPlacementContainer {
+  display: flex; justify-content: center;
+  gap: 1rem; width: 50%; margin: .5rem auto 1.5rem;
+}
+.options label {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem 1rem; border: 2px solid #b0dfff;
+  border-radius: 8px; cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.options input[type="radio"] { transform: scale(1.2); }
+.options label:hover { background: #e2f0ff; border-color: #104e8b; }
+.options input[type="radio"]:checked + span {
+  background: #104e8b; color: #fff;
+  border-color: #0d3b66;
+  padding: .5rem 1rem; border-radius: 8px;
+}
+
+/* Game board styles */
+.board-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+}
+/* Board wrapper */
+.board-container table {
+  border-collapse: separate;
+  border-spacing: 6px;
+  background: #0077be;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.board-container td {
+  width: 48px; height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform 0.1s, background 0.3s;
+}
+/* Hover effect: lift cell slightly */
+.board-container td.clickable:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Ship cells */
+.ship-cell {
+  background: rgba(255, 255, 255, 0.2);
+  color: transparent;
+}
+.ship-cell::before {
+  content: "\f21a"; 
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+}
+
+/* Hit cells */
+.hit {
+  background: rgba(255, 0, 0, 0.1);
+}
+.hit::before {
+  content: "\f06d"; 
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute; top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  font-size: 1.2rem;
+  color: #ff4500;
+  text-shadow: 0 0 6px rgba(255,69,0,0.8);
+}
+
+/* Miss cells */
+.miss::before {
+  content: "";
+  width: 8px; height: 8px;
+  background-color: #6c757d;
+  border-radius: 50%;
+  position: absolute; top:50%; left:50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.miss.clickable:hover::before {
+  transform: translate(-50%, -50%) scale(1.4);
+  opacity: 0.7;
+}
+
+/* Center the Restart and Main Menu buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+/* Nav-buttons */
+.options button,
+.nav-buttons button {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.options button:hover,
+.nav-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.options button:active,
+.nav-buttons button:active {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.options button i,
+.nav-buttons button i {
+  margin-right: 0.5rem;
+}
+.options button {
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Main-menu dropdown */
+.options select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #ffffff;
+  border: 2px solid #4facfe;
+  border-radius: 8px;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 1.1rem;
+  color: #104e8b;
+  cursor: pointer;
+  display: block;
+  width: 80%; max-width: 320px;
+  margin: 0.5rem auto;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.options select::after {
+  content: "\f078";
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #4facfe;
+}
+.options select option {
+  background-color: #fff !important;
+  color: #104e8b !important;
+}
+.options select:hover,
+.options select:focus {
+  border-color: #00f2fe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+  outline: none;
+}
+
+/* Tabs container: center and space out tab buttons */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+/* Base style for each tab button */
+.tabButton {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.tabButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.tabButton:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.tabButton.active {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+}
+
+/* Dashboard: stack sections one below the other */
+#dashboardTab {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;   
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: nowrap;  
+}
+/* Visual distinction for each KPI section */
+.kpi-section {
+  background: #f0f8ff;
+  border: 2px solid #4facfe;
+  border-radius: 12px;
+  padding: 1.5rem;
+  flex: 0 0 calc(50% - 1rem); 
+  max-width: calc(50% - 1rem);
+  min-width: 280px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+.kpi-section:hover {
+  transform: translateY(-4px);
+}
+.kpi-section > h3 {
+  margin-bottom: 1rem;
+  color: #104e8b;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #4facfe;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+.kpi-section .kpi-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+/* Boat status: vertical list of badges */
+.boats-status ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.boats-status li {
+  background: linear-gradient(135deg, #66bb6a, #43a047);
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
+.boats-status li::before {
+  content: "\f21a";
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 0.4rem;
+}
+.boats-status li.sunk {
+  background: #e0e0e0;
+  color: #777;
+  text-decoration: line-through;
+}
+.boats-status li.sunk::before {
+  content: "\f54c";
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 0.4rem;
+}
+
+
+/* Message and status */
+#message {
+  text-align: center; font-size: 1.2rem;
+  margin-bottom: 1rem; color: #104e8b;
+}
+.boats-status {
+  display: flex; justify-content: space-around;
+  margin-bottom: 2rem;
+}
+.sunk { text-decoration: line-through; color: #6c757d; }
+
+/* make the chart area taller and full-width */
+.chart-wrapper {
+  width: 100%;
+  max-width: 900px;      
+  margin: 0 auto;
+  height: 500px;        
+  position: relative;    
+}
+
+/* ensure the canvas fills its wrapper */
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .options, .board-container { flex-direction: column; }
+  .options select, .options button { width: 100%; }
+  .board-container { gap: 1rem; }
+}
+

@@ -1,0 +1,5 @@
+torch
+numpy
+flask
+flask_sqlalchemy
+torch
